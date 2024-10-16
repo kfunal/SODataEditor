@@ -1,0 +1,40 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/DataEditor/StyleSheets/DataEditorWindow.uss?fileID=7433441132597879392&amp;guid=c5defb56103194b4c833fbb73934ea5a&amp;type=3#DataEditorWindow" />
+    <ui:VisualElement name="window" class="window" style="flex-grow: 1;">
+        <uie:Toolbar name="toolbar" class="toolbar">
+            <uie:ToolbarButton text="All Scriptable Objects" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-so-button" class="toolbar-button" />
+            <uie:ToolbarButton text="Create Scriptable Object" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-button" class="toolbar-button" />
+            <uie:ToolbarButton text="Create Scriptable Object Script" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-script-button" class="toolbar-button" />
+        </uie:Toolbar>
+        <ui:VisualElement name="all-so-area" class="area-hidden" style="flex-grow: 1; flex-direction: row;">
+            <DataEditor.CustomUIElements.SplitView fixed-pane-initial-dimension="150" name="so-area-split-view">
+                <ui:VisualElement name="list-area" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                    <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-so-list" style="align-items: stretch; justify-content: flex-start; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 14px; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
+                    <ui:EnumField label="Categories" name="categories" style="flex-direction: column; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
+                    <ui:ListView name="so-list" show-alternating-row-backgrounds="None" show-add-remove-footer="false" fixed-item-height="20" show-foldout-header="false" virtualization-method="FixedHeight" show-border="true" style="flex-grow: 1; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="content-area" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                    <ui:Label tabindex="-1" text="Content" parse-escape-sequences="true" display-tooltip-when-elided="true" name="content-header" style="overflow: hidden; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px; color: rgb(230, 230, 230); -unity-font-style: bold; font-size: 14px;" />
+                    <ui:VisualElement name="inspector-area" style="flex-grow: 1; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;">
+                        <ui:ScrollView name="inspector-scroll-view" mode="VerticalAndHorizontal" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </DataEditor.CustomUIElements.SplitView>
+        </ui:VisualElement>
+        <ui:VisualElement name="create-so-area" class="area-hidden" style="flex-grow: 1;" />
+        <ui:VisualElement name="create-so-script-area" class="area-hidden" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+            <ui:VisualElement name="fields" style="flex-grow: 0;">
+                <ui:TextField picking-mode="Ignore" label="Script Name" name="script-name" binding-path="scriptName" class="script-area-input" />
+                <ui:TextField picking-mode="Ignore" label="Inherit From" name="inherit-from" binding-path="inheritFrom" class="script-area-input" />
+                <ui:TextField picking-mode="Ignore" label="File Name" name="file-name" binding-path="fileName" class="script-area-input" />
+                <ui:TextField picking-mode="Ignore" label="Menu Name" name="menu-name" binding-path="menuName" class="script-area-input" />
+                <uie:ObjectField label="Path Field" name="path-field" type="UnityEditor.DefaultAsset, UnityEditor.CoreModule" binding-path="path" class="script-area-input" />
+            </ui:VisualElement>
+            <ui:VisualElement name="buttons-area" style="flex-grow: 0; flex-direction: row; justify-content: flex-end;">
+                <ui:Button text="Clear" parse-escape-sequences="true" display-tooltip-when-elided="true" name="clear-button" />
+                <ui:Button text="Create Script" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-button" />
+            </ui:VisualElement>
+            <DataEditor.CustomUIElements.CustomHelpBox name="script-help-box" class="helpbox-hidden" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
