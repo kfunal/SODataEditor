@@ -15,6 +15,10 @@ namespace DataEditor.Utilities
         public const string WINDOW_TITLE = "Data Editor";
         public const string MENU_PATH = "Data Editor/Window";
         public const string CREATE_SCRIPT_ERROR = "Please make sure that you have filled in all the fields, that you have selected a valid file path, and that there is no script with the same name in the project.";
+        public const string ARE_YOU_SURE = "Are you Sure";
+        public const string ARE_YOU_SURE_TO_DELETE = "Are you sure you want to delete the selected Scriptable Objects ?";
+        public const string YES = "Yes";
+        public const string NO = "No";
 
         //Visual Element
         public const string AREA_PARENT = "window";
@@ -27,6 +31,9 @@ namespace DataEditor.Utilities
         public const string BUTTON_CREATE_SO_AREA = "create-so-button";
         public const string BUTTON_CREATE_SO_SCRIPT_AREA = "create-so-script-button";
         public const string BUTTON_CREATE_SO_SCRIPT = "create-button";
+        public const string BUTTON_SELECT_SO = "select-so-button";
+        public const string BUTTON_DELETE_SO = "delete-so-button";
+        public const string BUTTON_REFRESH_LIST = "refresh-so-list-button";
 
         //List View
         public const string LIST_VIEW_ALL_SO = "so-list";

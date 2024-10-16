@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DataEditor.CustomUIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -29,6 +30,9 @@ namespace DataEditor.Editor
         private ToolbarButton createSOAreaButton;
         private ToolbarButton createSOScriptAreaButton;
         private Button createSOScriptButton;
+        private Button selectSOButton;
+        private Button deleteSOButton;
+        private Button refreshButton;
 
         private ListView allSOList;
         private ScrollView inspectorArea;
@@ -74,6 +78,9 @@ namespace DataEditor.Editor
             createSOAreaButton = root.Q<ToolbarButton>(BUTTON_CREATE_SO_AREA);
             createSOScriptAreaButton = root.Q<ToolbarButton>(BUTTON_CREATE_SO_SCRIPT_AREA);
             createSOScriptButton = root.Q<Button>(BUTTON_CREATE_SO_SCRIPT);
+            selectSOButton = root.Q<Button>(BUTTON_SELECT_SO);
+            deleteSOButton = root.Q<Button>(BUTTON_DELETE_SO);
+            refreshButton = root.Q<Button>(BUTTON_REFRESH_LIST);
 
             inspectorArea = root.Q<ScrollView>(SCROLL_VIEW_INSPECTOR);
             allSOList = root.Q<ListView>(LIST_VIEW_ALL_SO);
@@ -95,11 +102,40 @@ namespace DataEditor.Editor
             createSOAreaButton.RegisterCallback<ClickEvent>(evt => ChangeArea(INDEX_CREATE_SO_AREA));
             createSOScriptAreaButton.RegisterCallback<ClickEvent>(evt => ChangeArea(INDEX_CREATE_SO_SCRIPT_AREA));
             createSOScriptButton.RegisterCallback<ClickEvent>(OnCreateScriptButtonClicked);
+            selectSOButton.RegisterCallback<ClickEvent>(OnSelectSOButtonClicked);
+            deleteSOButton.RegisterCallback<ClickEvent>(OnDeleteSOButtonClicked);
+            refreshButton.RegisterCallback<ClickEvent>(evt => RefreshSOList());
 
             allSOList.itemsSource = allScriptableObjects;
             allSOList.makeItem = () => CreateLabel(string.Empty, STYLE_ALL_SO_LIST_ELEMENT);
             allSOList.bindItem = (_item, _index) => (_item as Label).text = allScriptableObjects[_index].name;
             allSOList.selectionChanged += OnElementSelected;
+        }
+
+        private void OnDeleteSOButtonClicked(ClickEvent evt)
+        {
+            Object[] selectedItems = allSOList.selectedItems.Cast<Object>().ToArray();
+
+            if (selectedItems == null || selectedItems.Length == 0) return;
+
+            if (EditorUtility.DisplayDialog(ARE_YOU_SURE, ARE_YOU_SURE_TO_DELETE, YES, NO))
+            {
+                foreach (Object obj in selectedItems)
+                {
+                    string path = AssetDatabase.GetAssetPath(obj);
+
+                    AssetDatabase.DeleteAsset(path);
+                    AssetDatabase.Refresh();
+                }
+
+                RefreshSOList();
+            }
+        }
+
+        private void OnSelectSOButtonClicked(ClickEvent evt)
+        {
+            EditorUtility.FocusProjectWindow();
+            Selection.objects = allSOList.selectedItems.Cast<Object>().ToArray();
         }
 
         private void OnCreateScriptButtonClicked(ClickEvent evt)
@@ -124,19 +160,27 @@ namespace DataEditor.Editor
             if (inspectorArea.Contains(imguiContainer))
                 inspectorArea.Remove(imguiContainer);
 
-            imguiContainer = new IMGUIContainer(() =>
+            int count = enumerable.Count();
+
+            if (count == 1)
             {
-                UnityEditor.Editor editor = UnityEditor.Editor.CreateEditor(allScriptableObjects[allSOList.selectedIndex]);
+                imguiContainer = new IMGUIContainer(() =>
+                {
+                    UnityEditor.Editor editor = UnityEditor.Editor.CreateEditor(allScriptableObjects[allSOList.selectedIndex]);
 
-                if (editor != null)
-                    editor.OnInspectorGUI();
-            });
+                    if (editor != null)
+                        editor.OnInspectorGUI();
+                });
 
-            inspectorArea.Add(imguiContainer);
+                inspectorArea.Add(imguiContainer);
+            }
+
         }
 
         private void ChangeArea(int _areaIndex)
         {
+            allSOList.selectedIndex = -1;
+
             for (int i = 0; i < panels.Count; i++)
             {
                 if (i == _areaIndex)
@@ -144,6 +188,13 @@ namespace DataEditor.Editor
                 else
                     panels[i].ChangeStyle(STYLE_AREA_HIDDEN, STYLE_AREA);
             }
+        }
+
+        private void RefreshSOList()
+        {
+            allScriptableObjects = GetScriptableObjects();
+            allSOList.ChangeItemSource(allScriptableObjects);
+            allSOList.selectedIndex = -1;
         }
 
         private bool IsValid()

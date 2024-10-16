@@ -1,20 +1,29 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/DataEditor/StyleSheets/DataEditorWindow.uss?fileID=7433441132597879392&amp;guid=c5defb56103194b4c833fbb73934ea5a&amp;type=3#DataEditorWindow" />
     <ui:VisualElement name="window" class="window" style="flex-grow: 1;">
-        <uie:Toolbar name="toolbar" class="toolbar">
+        <uie:Toolbar name="toolbar" class="toolbar" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
             <uie:ToolbarButton text="All Scriptable Objects" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-so-button" class="toolbar-button" />
             <uie:ToolbarButton text="Create Scriptable Object" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-button" class="toolbar-button" />
             <uie:ToolbarButton text="Create Scriptable Object Script" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-script-button" class="toolbar-button" />
         </uie:Toolbar>
-        <ui:VisualElement name="all-so-area" class="area-hidden" style="flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="all-so-area" class="area-hidden area" style="flex-grow: 1; flex-direction: row;">
             <DataEditor.CustomUIElements.SplitView fixed-pane-initial-dimension="150" name="so-area-split-view">
                 <ui:VisualElement name="list-area" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
-                    <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-so-list" style="align-items: stretch; justify-content: flex-start; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 14px; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
+                    <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-so-list-button" style="align-items: stretch; justify-content: flex-start; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 14px; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
                     <ui:EnumField label="Categories" name="categories" style="flex-direction: column; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
-                    <ui:ListView name="so-list" show-alternating-row-backgrounds="None" show-add-remove-footer="false" fixed-item-height="20" show-foldout-header="false" virtualization-method="FixedHeight" show-border="true" style="flex-grow: 1; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
+                    <ui:ListView name="so-list" show-alternating-row-backgrounds="None" show-add-remove-footer="false" fixed-item-height="20" show-foldout-header="false" virtualization-method="FixedHeight" show-border="true" selection-type="Multiple" style="flex-grow: 1; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="content-area" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
                     <ui:Label tabindex="-1" text="Content" parse-escape-sequences="true" display-tooltip-when-elided="true" name="content-header" style="overflow: hidden; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px; color: rgb(230, 230, 230); -unity-font-style: bold; font-size: 14px;" />
+                    <ui:VisualElement name="button-area" style="flex-grow: 0; align-items: flex-start; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; flex-direction: row;">
+                        <uie:ToolbarButton text="Select" parse-escape-sequences="true" display-tooltip-when-elided="true" name="select-so-button" class="toolbar-button" />
+                        <uie:ToolbarButton text="Delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete-so-button" class="toolbar-button" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="header-area" style="flex-grow: 0; flex-direction: row; margin-bottom: 5px;">
+                        <ui:VisualElement name="left-line" style="flex-grow: 1; border-top-width: 0; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); justify-content: center; background-color: rgb(255, 255, 255); margin-top: 7px; margin-right: 5px; margin-bottom: 7px; margin-left: 5px;" />
+                        <ui:Label tabindex="-1" text="Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" name="header" style="flex-grow: 0;" />
+                        <ui:VisualElement name="right-line" style="flex-grow: 1; background-color: rgb(255, 255, 255); margin-top: 7px; margin-right: 5px; margin-bottom: 7px; margin-left: 5px; justify-content: center;" />
+                    </ui:VisualElement>
                     <ui:VisualElement name="inspector-area" style="flex-grow: 1; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;">
                         <ui:ScrollView name="inspector-scroll-view" mode="VerticalAndHorizontal" style="flex-grow: 1;" />
                     </ui:VisualElement>

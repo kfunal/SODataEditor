@@ -5,6 +5,7 @@
 .toolbar{
     background-color: rgb(60,60,60);
     overflow: hidden;
+    height: 30px;
 }
 
 .toolbar-button{
@@ -12,6 +13,8 @@
     border-color: rgb(100,100,100);
     margin-left: 5px;
     overflow: hidden;
+    -unity-text-align: middle-center;
+    font-size: 13px;
 }
 
 .area-hidden{
