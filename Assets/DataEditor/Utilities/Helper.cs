@@ -95,5 +95,10 @@ namespace DataEditor.Utilities
 
             return false;
         }
+
+        public static void AddButtonClick(this VisualElement _element, string _buttonName, System.Action _onClick)
+        {
+            _element.Q<Button>(_buttonName).RegisterCallback<ClickEvent>(evt => _onClick?.Invoke());
+        }
     }
 }

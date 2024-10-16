@@ -21,18 +21,6 @@ namespace DataEditor.Editor
         [SerializeField] private Object path;
 
         private VisualElement root;
-        private VisualElement allSOArea;
-        private VisualElement createSOArea;
-        private VisualElement createSOScriptArea;
-        private VisualElement parent;
-
-        private ToolbarButton allSOAreaButton;
-        private ToolbarButton createSOAreaButton;
-        private ToolbarButton createSOScriptAreaButton;
-        private Button createSOScriptButton;
-        private Button selectSOButton;
-        private Button deleteSOButton;
-        private Button refreshButton;
 
         private ListView allSOList;
         private ScrollView inspectorArea;
@@ -45,11 +33,27 @@ namespace DataEditor.Editor
         private string soScriptContent;
         private string soScriptTemplate;
 
+        private Dictionary<string, System.Action> buttonActions;
+
         [MenuItem(MENU_PATH)]
         public static void ShowExample()
         {
             DataEditorWindow wnd = GetWindow<DataEditorWindow>();
             wnd.titleContent = new GUIContent(WINDOW_TITLE);
+        }
+
+        private void OnEnable()
+        {
+            buttonActions = new Dictionary<string, System.Action>
+            {
+                { BUTTON_ALL_SO_AREA, () => ChangeArea(INDEX_ALL_SO_AREA) },
+                { BUTTON_CREATE_SO_AREA, () => ChangeArea(INDEX_CREATE_SO_AREA) },
+                { BUTTON_CREATE_SO_SCRIPT_AREA, () => ChangeArea(INDEX_CREATE_SO_SCRIPT_AREA) },
+                { BUTTON_CREATE_SO_SCRIPT, OnCreateScriptButtonClicked },
+                { BUTTON_SELECT_SO, OnSelectSOButtonClicked },
+                { BUTTON_DELETE_SO, OnDeleteSOButtonClicked },
+                { BUTTON_REFRESH_LIST, RefreshSOList }
+            };
         }
 
         public void CreateGUI()
@@ -61,27 +65,12 @@ namespace DataEditor.Editor
             allScriptableObjects = GetScriptableObjects();
 
             GetUIElements();
-            RegisterUIElementEvents();
             InitializePanelsList();
-
-            parent.Bind(new SerializedObject(this));
+            EventRegistersAndBinds();
         }
 
         private void GetUIElements()
         {
-            allSOArea = root.Q<VisualElement>(AREA_ALL_SO);
-            createSOArea = root.Q<VisualElement>(AREA_CREATE_SO);
-            createSOScriptArea = root.Q<VisualElement>(AREA_CREATE_SO_SCRIPT);
-            parent = root.Q<VisualElement>(AREA_PARENT);
-
-            allSOAreaButton = root.Q<ToolbarButton>(BUTTON_ALL_SO_AREA);
-            createSOAreaButton = root.Q<ToolbarButton>(BUTTON_CREATE_SO_AREA);
-            createSOScriptAreaButton = root.Q<ToolbarButton>(BUTTON_CREATE_SO_SCRIPT_AREA);
-            createSOScriptButton = root.Q<Button>(BUTTON_CREATE_SO_SCRIPT);
-            selectSOButton = root.Q<Button>(BUTTON_SELECT_SO);
-            deleteSOButton = root.Q<Button>(BUTTON_DELETE_SO);
-            refreshButton = root.Q<Button>(BUTTON_REFRESH_LIST);
-
             inspectorArea = root.Q<ScrollView>(SCROLL_VIEW_INSPECTOR);
             allSOList = root.Q<ListView>(LIST_VIEW_ALL_SO);
             scriptInfoHelpBox = root.Q<CustomHelpBox>(HELP_BOX_CREATE_SO_INFO);
@@ -89,22 +78,20 @@ namespace DataEditor.Editor
 
         private void InitializePanelsList()
         {
-            panels = new List<VisualElement>{
-                allSOArea,
-                createSOArea,
-                createSOScriptArea
+            panels = new List<VisualElement>
+            {
+                root.Q<VisualElement>(AREA_ALL_SO),
+                root.Q<VisualElement>(AREA_CREATE_SO),
+                root.Q<VisualElement>(AREA_CREATE_SO_SCRIPT)
             };
         }
 
-        private void RegisterUIElementEvents()
+        private void EventRegistersAndBinds()
         {
-            allSOAreaButton.RegisterCallback<ClickEvent>(evt => ChangeArea(INDEX_ALL_SO_AREA));
-            createSOAreaButton.RegisterCallback<ClickEvent>(evt => ChangeArea(INDEX_CREATE_SO_AREA));
-            createSOScriptAreaButton.RegisterCallback<ClickEvent>(evt => ChangeArea(INDEX_CREATE_SO_SCRIPT_AREA));
-            createSOScriptButton.RegisterCallback<ClickEvent>(OnCreateScriptButtonClicked);
-            selectSOButton.RegisterCallback<ClickEvent>(OnSelectSOButtonClicked);
-            deleteSOButton.RegisterCallback<ClickEvent>(OnDeleteSOButtonClicked);
-            refreshButton.RegisterCallback<ClickEvent>(evt => RefreshSOList());
+            foreach (var kvp in buttonActions)
+                root.AddButtonClick(kvp.Key, kvp.Value);
+
+            root.Q<VisualElement>(AREA_PARENT).Bind(new SerializedObject(this));
 
             allSOList.itemsSource = allScriptableObjects;
             allSOList.makeItem = () => CreateLabel(string.Empty, STYLE_ALL_SO_LIST_ELEMENT);
@@ -112,7 +99,7 @@ namespace DataEditor.Editor
             allSOList.selectionChanged += OnElementSelected;
         }
 
-        private void OnDeleteSOButtonClicked(ClickEvent evt)
+        private void OnDeleteSOButtonClicked()
         {
             Object[] selectedItems = allSOList.selectedItems.Cast<Object>().ToArray();
 
@@ -132,13 +119,13 @@ namespace DataEditor.Editor
             }
         }
 
-        private void OnSelectSOButtonClicked(ClickEvent evt)
+        private void OnSelectSOButtonClicked()
         {
             EditorUtility.FocusProjectWindow();
             Selection.objects = allSOList.selectedItems.Cast<Object>().ToArray();
         }
 
-        private void OnCreateScriptButtonClicked(ClickEvent evt)
+        private void OnCreateScriptButtonClicked()
         {
             if (!IsValid())
             {
@@ -160,11 +147,9 @@ namespace DataEditor.Editor
             if (inspectorArea.Contains(imguiContainer))
                 inspectorArea.Remove(imguiContainer);
 
-            int count = enumerable.Count();
+            if (enumerable.Count() != 1) return;
 
-            if (count == 1)
-            {
-                imguiContainer = new IMGUIContainer(() =>
+            imguiContainer = new IMGUIContainer(() =>
                 {
                     UnityEditor.Editor editor = UnityEditor.Editor.CreateEditor(allScriptableObjects[allSOList.selectedIndex]);
 
@@ -172,9 +157,7 @@ namespace DataEditor.Editor
                         editor.OnInspectorGUI();
                 });
 
-                inspectorArea.Add(imguiContainer);
-            }
-
+            inspectorArea.Add(imguiContainer);
         }
 
         private void ChangeArea(int _areaIndex)
