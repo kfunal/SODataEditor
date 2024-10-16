@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace DataEditor.CustomUIElements
+namespace DataEditor.Editor.CustomUIElements
 {
     public class CustomHelpBox : HelpBox
     {

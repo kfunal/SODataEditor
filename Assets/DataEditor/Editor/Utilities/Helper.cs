@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DataEditor.CustomUIElements;
+using DataEditor.Editor.CustomUIElements;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static DataEditor.Utilities.Constants;
+using static DataEditor.Editor.Utilities.Constants;
 
-namespace DataEditor.Utilities
+namespace DataEditor.Editor.Utilities
 {
     public static class Helper
     {

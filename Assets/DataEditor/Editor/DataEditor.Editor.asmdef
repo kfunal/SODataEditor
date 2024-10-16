@@ -1,8 +1,10 @@
 {
-    "name": "DataEditor",
-    "rootNamespace": "DataEditor",
+    "name": "DataEditor.Editor",
+    "rootNamespace": "DataEditor.Editor",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

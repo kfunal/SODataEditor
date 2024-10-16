@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DataEditor.CustomUIElements;
+using DataEditor.Editor.CustomUIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static DataEditor.Utilities.Constants;
-using static DataEditor.Utilities.Helper;
+using static DataEditor.Editor.Utilities.Constants;
+using static DataEditor.Editor.Utilities.Helper;
 
 namespace DataEditor.Editor
 {
@@ -52,7 +52,8 @@ namespace DataEditor.Editor
                 { BUTTON_CREATE_SO_SCRIPT, OnCreateScriptButtonClicked },
                 { BUTTON_SELECT_SO, OnSelectSOButtonClicked },
                 { BUTTON_DELETE_SO, OnDeleteSOButtonClicked },
-                { BUTTON_REFRESH_LIST, RefreshSOList }
+                { BUTTON_REFRESH_LIST, RefreshSOList },
+                {BUTTON_UN_SELECT, OnUnSelectButtonClicked },
             };
         }
 
@@ -105,24 +106,30 @@ namespace DataEditor.Editor
 
             if (selectedItems == null || selectedItems.Length == 0) return;
 
-            if (EditorUtility.DisplayDialog(ARE_YOU_SURE, ARE_YOU_SURE_TO_DELETE, YES, NO))
+            if (!EditorUtility.DisplayDialog(ARE_YOU_SURE, ARE_YOU_SURE_TO_DELETE, YES, NO)) return;
+
+            foreach (Object obj in selectedItems)
             {
-                foreach (Object obj in selectedItems)
-                {
-                    string path = AssetDatabase.GetAssetPath(obj);
+                string path = AssetDatabase.GetAssetPath(obj);
 
-                    AssetDatabase.DeleteAsset(path);
-                    AssetDatabase.Refresh();
-                }
-
-                RefreshSOList();
+                AssetDatabase.DeleteAsset(path);
+                AssetDatabase.Refresh();
             }
+
+            RefreshSOList();
         }
 
         private void OnSelectSOButtonClicked()
         {
             EditorUtility.FocusProjectWindow();
             Selection.objects = allSOList.selectedItems.Cast<Object>().ToArray();
+        }
+
+        private void OnUnSelectButtonClicked()
+        {
+            EditorUtility.FocusProjectWindow();
+            Selection.objects = null;
+            allSOList.selectedIndex = -1;
         }
 
         private void OnCreateScriptButtonClicked()

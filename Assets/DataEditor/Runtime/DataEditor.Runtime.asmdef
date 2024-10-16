@@ -1,6 +1,6 @@
 {
-    "name": "DataEditor",
-    "rootNamespace": "DataEditor",
+    "name": "DataEditor.Runtime",
+    "rootNamespace": "DataEditor.Runtime",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

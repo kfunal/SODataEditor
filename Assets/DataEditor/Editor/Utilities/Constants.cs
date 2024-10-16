@@ -1,4 +1,4 @@
-namespace DataEditor.Utilities
+namespace DataEditor.Editor.Utilities
 {
     public static class Constants
     {
@@ -8,8 +8,8 @@ namespace DataEditor.Utilities
         public const int INDEX_CREATE_SO_SCRIPT_AREA = 2;
 
         //Path
-        public const string PATH_SO_SCRIPT_TEMPLATE = "Assets/DataEditor/Templates/ScriptTemplate.cs.txt";
-        public const string PATH_SO_SCRIPT_TEMPLATE_HELPER = "Assets/DataEditor/Templates/TemplateHelper.cs.txt";
+        public const string PATH_SO_SCRIPT_TEMPLATE = "Assets/DataEditor/Editor/Templates/ScriptTemplate.cs.txt";
+        public const string PATH_SO_SCRIPT_TEMPLATE_HELPER = "Assets/DataEditor/Editor/Templates/TemplateHelper.cs.txt";
 
         //Text
         public const string WINDOW_TITLE = "Data Editor";
@@ -34,6 +34,7 @@ namespace DataEditor.Utilities
         public const string BUTTON_SELECT_SO = "select-so-button";
         public const string BUTTON_DELETE_SO = "delete-so-button";
         public const string BUTTON_REFRESH_LIST = "refresh-so-list-button";
+        public const string BUTTON_UN_SELECT = "unselect-button";
 
         //List View
         public const string LIST_VIEW_ALL_SO = "so-list";
