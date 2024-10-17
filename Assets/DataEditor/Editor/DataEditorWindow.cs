@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DataEditor.Editor.CustomUIElements;
+using DataEditor.Runtime.Enums;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -14,18 +15,24 @@ namespace DataEditor.Editor
     public class DataEditorWindow : EditorWindow
     {
         [SerializeField] private VisualTreeAsset visualTreeAsset;
+        [SerializeField] private SOGroups scriptCreateGroup;
+        [SerializeField] private SOCategory scriptCreateCategory;
         [SerializeField] private string scriptName;
         [SerializeField] private string inheritFrom;
         [SerializeField] private string fileName;
         [SerializeField] private string menuName;
+        [SerializeField] private string newGroup;
+        [SerializeField] private string newCategory;
+
         [SerializeField] private Object path;
 
         private VisualElement root;
-
         private ListView allSOList;
         private ScrollView inspectorArea;
-        private CustomHelpBox scriptInfoHelpBox;
         private IMGUIContainer imguiContainer;
+
+        private CustomHelpBox scriptInfoHelpBox;
+        private CustomHelpBox addGroupCategoryHelpBox;
 
         private List<VisualElement> panels;
         private List<ScriptableObject> allScriptableObjects = new List<ScriptableObject>();
@@ -49,11 +56,15 @@ namespace DataEditor.Editor
                 { BUTTON_ALL_SO_AREA, () => ChangeArea(INDEX_ALL_SO_AREA) },
                 { BUTTON_CREATE_SO_AREA, () => ChangeArea(INDEX_CREATE_SO_AREA) },
                 { BUTTON_CREATE_SO_SCRIPT_AREA, () => ChangeArea(INDEX_CREATE_SO_SCRIPT_AREA) },
-                { BUTTON_CREATE_SO_SCRIPT, OnCreateScriptButtonClicked },
-                { BUTTON_SELECT_SO, OnSelectSOButtonClicked },
-                { BUTTON_DELETE_SO, OnDeleteSOButtonClicked },
+                { BUTTON_CREATE_SO_SCRIPT, CreateScript },
+                { BUTTON_SELECT_SO, SelectSO },
+                { BUTTON_UN_SELECT, UnSelectSO },
+                { BUTTON_DELETE_SO, DeleteSO },
                 { BUTTON_REFRESH_LIST, RefreshSOList },
-                {BUTTON_UN_SELECT, OnUnSelectButtonClicked },
+                { BUTTON_CREATE_CATEGORY_GROUP_AREA,  () => ChangeArea(INDEX_CREATE_CATEGORY_AREA)},
+                { BUTTON_CLEAR_SCRIPT_INPUT, ClearScriptInput },
+                { BUTTON_CREATE_GROUP, () => CreateGroupOrCategory(newGroup,GROUP_NAME_CANT_BE_EMPTY,PATH_GROUPS_SCRIPT) },
+                { BUTTON_CREATE_CATEGORY, () => CreateGroupOrCategory(newCategory,CATEGORY_NAME_CANT_BE_EMPTY,PATH_CATEGORY_SCRIPT) },
             };
         }
 
@@ -75,6 +86,7 @@ namespace DataEditor.Editor
             inspectorArea = root.Q<ScrollView>(SCROLL_VIEW_INSPECTOR);
             allSOList = root.Q<ListView>(LIST_VIEW_ALL_SO);
             scriptInfoHelpBox = root.Q<CustomHelpBox>(HELP_BOX_CREATE_SO_INFO);
+            addGroupCategoryHelpBox = root.Q<CustomHelpBox>(HELP_BOX_CREATE_GROUP_OR_CATEGORY);
         }
 
         private void InitializePanelsList()
@@ -83,14 +95,15 @@ namespace DataEditor.Editor
             {
                 root.Q<VisualElement>(AREA_ALL_SO),
                 root.Q<VisualElement>(AREA_CREATE_SO),
-                root.Q<VisualElement>(AREA_CREATE_SO_SCRIPT)
+                root.Q<VisualElement>(AREA_CREATE_SO_SCRIPT),
+                root.Q<VisualElement>(AREA_CREATE_CATEGORY)
             };
         }
 
         private void EventRegistersAndBinds()
         {
             foreach (var kvp in buttonActions)
-                root.AddButtonClick(kvp.Key, kvp.Value);
+                root.Q<Button>(kvp.Key).RegisterCallback<ClickEvent>((evt) => kvp.Value?.Invoke());
 
             root.Q<VisualElement>(AREA_PARENT).Bind(new SerializedObject(this));
 
@@ -100,7 +113,7 @@ namespace DataEditor.Editor
             allSOList.selectionChanged += OnElementSelected;
         }
 
-        private void OnDeleteSOButtonClicked()
+        private void DeleteSO()
         {
             Object[] selectedItems = allSOList.selectedItems.Cast<Object>().ToArray();
 
@@ -119,20 +132,20 @@ namespace DataEditor.Editor
             RefreshSOList();
         }
 
-        private void OnSelectSOButtonClicked()
+        private void SelectSO()
         {
             EditorUtility.FocusProjectWindow();
             Selection.objects = allSOList.selectedItems.Cast<Object>().ToArray();
         }
 
-        private void OnUnSelectButtonClicked()
+        private void UnSelectSO()
         {
             EditorUtility.FocusProjectWindow();
             Selection.objects = null;
             allSOList.selectedIndex = -1;
         }
 
-        private void OnCreateScriptButtonClicked()
+        private void CreateScript()
         {
             if (!IsValid())
             {
@@ -143,10 +156,21 @@ namespace DataEditor.Editor
             scriptInfoHelpBox.ChangeStyle(STYLE_HELP_BOX_HIDDEN, STYLE_HELP_BOX);
 
             soScriptContent = soScriptTemplate;
-            soScriptContent = soScriptContent.ReplaceTemplate(inheritFrom, fileName, menuName);
+            soScriptContent = soScriptContent.ReplaceTemplate(inheritFrom, fileName, menuName, $"SOGroups.{scriptCreateGroup}", $"SOCategory.{scriptCreateCategory}");
 
             File.WriteAllText(PATH_SO_SCRIPT_TEMPLATE_HELPER, soScriptContent);
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(PATH_SO_SCRIPT_TEMPLATE_HELPER, $"{path.GetPath()}/{scriptName}.cs");
+        }
+
+        private void ClearScriptInput()
+        {
+            scriptName = string.Empty;
+            inheritFrom = string.Empty;
+            fileName = string.Empty;
+            menuName = string.Empty;
+            scriptCreateGroup = SOGroups.UnGrouped;
+            scriptCreateCategory = SOCategory.Uncategorized;
+            path = null;
         }
 
         private void OnElementSelected(IEnumerable<object> enumerable)
@@ -197,6 +221,24 @@ namespace DataEditor.Editor
             if (ScriptExist(scriptName)) return false;
 
             return true;
+        }
+
+        public void CreateGroupOrCategory(string _valueToCreate, string _emptyMessage, string _addPath)
+        {
+            if (string.IsNullOrEmpty(_valueToCreate))
+            {
+                addGroupCategoryHelpBox.SetHelpBox(_emptyMessage, HelpBoxMessageType.Error);
+                return;
+            }
+
+            if (EnumContains(_valueToCreate, _addPath))
+            {
+                addGroupCategoryHelpBox.SetHelpBox($"{_valueToCreate} {ALREADY_EXIST}", HelpBoxMessageType.Error);
+                return;
+            }
+
+            scriptInfoHelpBox.ChangeStyle(STYLE_HELP_BOX_HIDDEN, STYLE_HELP_BOX);
+            _valueToCreate.AddToEnum(_addPath);
         }
     }
 }

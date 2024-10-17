@@ -75,9 +75,9 @@ namespace DataEditor.Editor.Utilities
         public static bool IsValidFolder(this Object _object) => AssetDatabase.IsValidFolder(AssetDatabase.GetAssetPath(_object));
         public static string GetPath(this Object _object) => AssetDatabase.GetAssetPath(_object);
 
-        public static string ReplaceTemplate(this string _string, string _baseClass, string _fileName, string _menuName)
+        public static string ReplaceTemplate(this string _string, string _baseClass, string _fileName, string _menuName, string _group, string _category)
         {
-            return _string.Replace("__BASE_CLASS__", _baseClass).Replace("__FILE_NAME__", _fileName).Replace("__MENU_NAME__", _menuName);
+            return _string.Replace("__BASE_CLASS__", _baseClass).Replace("__FILE_NAME__", _fileName).Replace("__MENU_NAME__", _menuName).Replace("__GROUP__", _group).Replace("__CATEGORY__", _category);
         }
 
         public static bool ScriptExist(string _scriptName)
@@ -96,9 +96,34 @@ namespace DataEditor.Editor.Utilities
             return false;
         }
 
-        public static void AddButtonClick(this VisualElement _element, string _buttonName, System.Action _onClick)
+        public static void AddToEnum(this string _value, string _enumPath)
         {
-            _element.Q<Button>(_buttonName).RegisterCallback<ClickEvent>(evt => _onClick?.Invoke());
+            string[] lines = File.ReadAllLines(_enumPath);
+
+            if (lines == null || lines.Length == 0) return;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("}"))
+                {
+                    lines[i] = $"\t\t{_value},\n{lines[i]}";
+                    break;
+                }
+            }
+
+            File.WriteAllLines(_enumPath, lines);
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+        }
+
+        public static bool EnumContains(string _value, string _enumPath)
+        {
+            string[] lines = File.ReadAllLines(_enumPath);
+
+            if (lines == null || lines.Length == 0) return false;
+            if (lines.Where(x => x.Contains(_value)).Count() > 0) return true;
+
+            return false;
         }
     }
 }

@@ -3,10 +3,11 @@
     <ui:VisualElement name="window" class="window" style="flex-grow: 1;">
         <uie:Toolbar name="toolbar" class="toolbar" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
             <uie:ToolbarButton text="All Scriptable Objects" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-so-button" class="toolbar-button" />
-            <uie:ToolbarButton text="Create Scriptable Object" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-button" class="toolbar-button" />
-            <uie:ToolbarButton text="Create Scriptable Object Script" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-script-button" class="toolbar-button" />
+            <uie:ToolbarButton text="Create SO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-button" class="toolbar-button" />
+            <uie:ToolbarButton text="Create SO Script" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-so-script-button" class="toolbar-button" />
+            <uie:ToolbarButton text="Create Group or Category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-group-or-category-button" class="toolbar-button" />
         </uie:Toolbar>
-        <ui:VisualElement name="all-so-area" class="area-hidden area" style="flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="all-so-area" class="area-hidden" style="flex-grow: 1; flex-direction: row;">
             <DataEditor.Editor.CustomUIElements.CustomSplitView name="custom-split-view" fixed-pane-initial-dimension="200">
                 <ui:VisualElement name="list-area" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
                     <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh-so-list-button" style="align-items: stretch; justify-content: flex-start; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 14px; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;" />
@@ -38,6 +39,8 @@
                 <ui:TextField picking-mode="Ignore" label="Inherit From" name="inherit-from" binding-path="inheritFrom" class="script-area-input" />
                 <ui:TextField picking-mode="Ignore" label="File Name" name="file-name" binding-path="fileName" class="script-area-input" />
                 <ui:TextField picking-mode="Ignore" label="Menu Name" name="menu-name" binding-path="menuName" class="script-area-input" />
+                <ui:EnumField label="Group" type="DataEditor.Runtime.Enums.SOGroups, DataEditor.Runtime" name="group-select" binding-path="scriptCreateGroup" class="script-area-input" />
+                <ui:EnumField label="Category" type="DataEditor.Runtime.Enums.SOCategory, DataEditor.Runtime" name="category-select" binding-path="scriptCreateCategory" class="script-area-input" />
                 <uie:ObjectField label="Path Field" name="path-field" type="UnityEditor.DefaultAsset, UnityEditor.CoreModule" binding-path="path" class="script-area-input" />
             </ui:VisualElement>
             <ui:VisualElement name="buttons-area" style="flex-grow: 0; flex-direction: row; justify-content: flex-end;">
@@ -45,6 +48,17 @@
                 <ui:Button text="Create Script" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-button" />
             </ui:VisualElement>
             <DataEditor.Editor.CustomUIElements.CustomHelpBox name="script-help-box" class="helpbox-hidden" />
+        </ui:VisualElement>
+        <ui:VisualElement name="create-group-or-category-area" class="area-hidden area" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+            <ui:VisualElement name="new-group-area" style="flex-grow: 0; flex-direction: row; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;">
+                <ui:TextField picking-mode="Ignore" label="New Group" name="new-group" binding-path="newGroup" style="flex-grow: 1; flex-direction: row;" />
+                <ui:Button text="Create" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-group-button" style="flex-grow: 0;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="new-category-area" style="flex-grow: 0; flex-direction: row; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;">
+                <ui:TextField picking-mode="Ignore" label="New Category" name="new-category" binding-path="newCategory" style="flex-grow: 1;" />
+                <ui:Button text="Create" parse-escape-sequences="true" display-tooltip-when-elided="true" name="create-category-button" />
+            </ui:VisualElement>
+            <DataEditor.Editor.CustomUIElements.CustomHelpBox name="group-category-help-box" class="helpbox-hidden" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

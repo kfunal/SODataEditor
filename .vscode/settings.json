@@ -51,5 +51,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "SODataEditor.sln"
+    "dotnet.defaultSolution": "SODataEditor.sln",
+    "cSpell.words": [
+        "Uncategorized"
+    ]
 }

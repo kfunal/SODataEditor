@@ -1,8 +1,11 @@
 using UnityEngine;
+using DataEditor.Runtime;
+using DataEditor.Runtime.Enums;
 
     #ROOTNAMESPACEBEGIN#
-[CreateAssetMenu(fileName = "Food", menuName = "SO/Food")]
-public class #SCRIPTNAME# : ScriptableObject
+[SOGroup(SOGroups.UnGrouped, SOCategory.Uncategorized)]
+[CreateAssetMenu(fileName = "Pistol", menuName = "SO/Pistol")]
+public class #SCRIPTNAME# : Weapon
 {
     #NOTRIM#
 }
