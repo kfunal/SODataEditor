@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DataEditor.Editor.CustomUIElements;
-using DataEditor.Runtime.Enums;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -15,8 +14,6 @@ namespace DataEditor.Editor
     public class DataEditorWindow : EditorWindow
     {
         [SerializeField] private VisualTreeAsset visualTreeAsset;
-        [SerializeField] private SOGroups scriptCreateGroup;
-        [SerializeField] private SOCategory scriptCreateCategory;
         [SerializeField] private string scriptName;
         [SerializeField] private string inheritFrom;
         [SerializeField] private string fileName;
@@ -61,10 +58,7 @@ namespace DataEditor.Editor
                 { BUTTON_UN_SELECT, UnSelectSO },
                 { BUTTON_DELETE_SO, DeleteSO },
                 { BUTTON_REFRESH_LIST, RefreshSOList },
-                { BUTTON_CREATE_CATEGORY_GROUP_AREA,  () => ChangeArea(INDEX_CREATE_CATEGORY_AREA)},
                 { BUTTON_CLEAR_SCRIPT_INPUT, ClearScriptInput },
-                { BUTTON_CREATE_GROUP, () => CreateGroupOrCategory(newGroup,GROUP_NAME_CANT_BE_EMPTY,PATH_GROUPS_SCRIPT) },
-                { BUTTON_CREATE_CATEGORY, () => CreateGroupOrCategory(newCategory,CATEGORY_NAME_CANT_BE_EMPTY,PATH_CATEGORY_SCRIPT) },
             };
         }
 
@@ -96,13 +90,12 @@ namespace DataEditor.Editor
                 root.Q<VisualElement>(AREA_ALL_SO),
                 root.Q<VisualElement>(AREA_CREATE_SO),
                 root.Q<VisualElement>(AREA_CREATE_SO_SCRIPT),
-                root.Q<VisualElement>(AREA_CREATE_CATEGORY)
             };
         }
 
         private void EventRegistersAndBinds()
         {
-            foreach (var kvp in buttonActions)
+            foreach (KeyValuePair<string, System.Action> kvp in buttonActions)
                 root.Q<Button>(kvp.Key).RegisterCallback<ClickEvent>((evt) => kvp.Value?.Invoke());
 
             root.Q<VisualElement>(AREA_PARENT).Bind(new SerializedObject(this));
@@ -156,7 +149,7 @@ namespace DataEditor.Editor
             scriptInfoHelpBox.ChangeStyle(STYLE_HELP_BOX_HIDDEN, STYLE_HELP_BOX);
 
             soScriptContent = soScriptTemplate;
-            soScriptContent = soScriptContent.ReplaceTemplate(inheritFrom, fileName, menuName, $"SOGroups.{scriptCreateGroup}", $"SOCategory.{scriptCreateCategory}");
+            soScriptContent = soScriptContent.ReplaceTemplate(inheritFrom, fileName, menuName);
 
             File.WriteAllText(PATH_SO_SCRIPT_TEMPLATE_HELPER, soScriptContent);
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(PATH_SO_SCRIPT_TEMPLATE_HELPER, $"{path.GetPath()}/{scriptName}.cs");
@@ -168,8 +161,6 @@ namespace DataEditor.Editor
             inheritFrom = string.Empty;
             fileName = string.Empty;
             menuName = string.Empty;
-            scriptCreateGroup = SOGroups.UnGrouped;
-            scriptCreateCategory = SOCategory.Uncategorized;
             path = null;
         }
 
@@ -221,24 +212,6 @@ namespace DataEditor.Editor
             if (ScriptExist(scriptName)) return false;
 
             return true;
-        }
-
-        public void CreateGroupOrCategory(string _valueToCreate, string _emptyMessage, string _addPath)
-        {
-            if (string.IsNullOrEmpty(_valueToCreate))
-            {
-                addGroupCategoryHelpBox.SetHelpBox(_emptyMessage, HelpBoxMessageType.Error);
-                return;
-            }
-
-            if (EnumContains(_valueToCreate, _addPath))
-            {
-                addGroupCategoryHelpBox.SetHelpBox($"{_valueToCreate} {ALREADY_EXIST}", HelpBoxMessageType.Error);
-                return;
-            }
-
-            scriptInfoHelpBox.ChangeStyle(STYLE_HELP_BOX_HIDDEN, STYLE_HELP_BOX);
-            _valueToCreate.AddToEnum(_addPath);
         }
     }
 }

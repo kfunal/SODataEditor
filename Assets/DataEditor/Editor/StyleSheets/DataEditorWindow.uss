@@ -1,47 +1,48 @@
-.window{
-    background-color: rgb(40,40,40);
+.window {
+    background-color: rgb(40, 40, 40);
 }
 
-.toolbar{
-    background-color: rgb(60,60,60);
+.toolbar {
+    background-color: rgb(60, 60, 60);
     overflow: hidden;
     height: 30px;
+    opacity: 1;
 }
 
-.toolbar-button{
+.toolbar-button {
     border-width: 1px;
-    border-color: rgb(100,100,100);
+    border-color: rgb(100, 100, 100);
     margin-left: 5px;
     overflow: hidden;
     -unity-text-align: middle-center;
     font-size: 13px;
 }
 
-.area-hidden{
+.area-hidden {
     display: none;
     opacity: 0;
 }
 
-.area{
+.area {
     display: flex;
     opacity: 1;
     border-width: 1px;
     border-radius: 5px;
-    border-color: rgb(60,90,120);
+    border-color: rgb(60, 90, 120);
     margin: 5px;
     transition-property: opacity;
-    transition-duration: .75s;
+    transition-duration: 0.75s;
     transition-timing-function: ease-in;
 }
 
-.so-list-element{
+.so-list-element {
     -unity-text-align: middle-left;
     padding-left: 5px;
-    color: rgb(230,230,230);
-    font-size:  13px;
+    color: rgb(230, 230, 230);
+    font-size: 13px;
 }
 
-.script-area-input{
+.script-area-input {
     font-size: 14px;
     margin: 5px;
     padding: 5px;
@@ -49,11 +50,11 @@
     color: white;
 }
 
-.helpbox{
+.helpbox {
     display: flex;
     margin: 3px;
 }
 
-.helpbox-hidden{
+.helpbox-hidden {
     display: none;
 }

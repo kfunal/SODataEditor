@@ -75,9 +75,9 @@ namespace DataEditor.Editor.Utilities
         public static bool IsValidFolder(this Object _object) => AssetDatabase.IsValidFolder(AssetDatabase.GetAssetPath(_object));
         public static string GetPath(this Object _object) => AssetDatabase.GetAssetPath(_object);
 
-        public static string ReplaceTemplate(this string _string, string _baseClass, string _fileName, string _menuName, string _group, string _category)
+        public static string ReplaceTemplate(this string _string, string _baseClass, string _fileName, string _menuName)
         {
-            return _string.Replace("__BASE_CLASS__", _baseClass).Replace("__FILE_NAME__", _fileName).Replace("__MENU_NAME__", _menuName).Replace("__GROUP__", _group).Replace("__CATEGORY__", _category);
+            return _string.Replace("__BASE_CLASS__", _baseClass).Replace("__FILE_NAME__", _fileName).Replace("__MENU_NAME__", _menuName);
         }
 
         public static bool ScriptExist(string _scriptName)
@@ -87,7 +87,7 @@ namespace DataEditor.Editor.Utilities
 
             string[] files = Directory.GetFiles(assetsPath, "*.cs", SearchOption.AllDirectories);
 
-            foreach (var file in files)
+            foreach (string file in files)
             {
                 if (Path.GetFileName(file) == fileName)
                     return true;

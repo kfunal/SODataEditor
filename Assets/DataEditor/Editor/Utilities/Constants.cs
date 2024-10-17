@@ -6,13 +6,10 @@ namespace DataEditor.Editor.Utilities
         public const int INDEX_ALL_SO_AREA = 0;
         public const int INDEX_CREATE_SO_AREA = 1;
         public const int INDEX_CREATE_SO_SCRIPT_AREA = 2;
-        public const int INDEX_CREATE_CATEGORY_AREA = 3;
 
         //Path
         public const string PATH_SO_SCRIPT_TEMPLATE = "Assets/DataEditor/Editor/Templates/ScriptTemplate.cs.txt";
         public const string PATH_SO_SCRIPT_TEMPLATE_HELPER = "Assets/DataEditor/Editor/Templates/TemplateHelper.cs.txt";
-        public const string PATH_CATEGORY_SCRIPT = "Assets/DataEditor/Runtime/Enums/SOCategory.cs";
-        public const string PATH_GROUPS_SCRIPT = "Assets/DataEditor/Runtime/Enums/SOGroups.cs";
 
         //Text
         public const string WINDOW_TITLE = "Data Editor";
@@ -22,16 +19,12 @@ namespace DataEditor.Editor.Utilities
         public const string ARE_YOU_SURE_TO_DELETE = "Are you sure you want to delete the selected Scriptable Objects ?";
         public const string YES = "Yes";
         public const string NO = "No";
-        public const string GROUP_NAME_CANT_BE_EMPTY = "New group name cannot be empty";
-        public const string CATEGORY_NAME_CANT_BE_EMPTY = "New category name cannot be empty";
-        public const string ALREADY_EXIST = "already exists";
 
         //Visual Element
         public const string AREA_PARENT = "window";
         public const string AREA_ALL_SO = "all-so-area";
         public const string AREA_CREATE_SO = "create-so-area";
         public const string AREA_CREATE_SO_SCRIPT = "create-so-script-area";
-        public const string AREA_CREATE_CATEGORY = "create-group-or-category-area";
 
         //Button
         public const string BUTTON_ALL_SO_AREA = "all-so-button";
@@ -42,10 +35,7 @@ namespace DataEditor.Editor.Utilities
         public const string BUTTON_DELETE_SO = "delete-so-button";
         public const string BUTTON_REFRESH_LIST = "refresh-so-list-button";
         public const string BUTTON_UN_SELECT = "unselect-button";
-        public const string BUTTON_CREATE_CATEGORY_GROUP_AREA = "create-group-or-category-button";
         public const string BUTTON_CLEAR_SCRIPT_INPUT = "clear-button";
-        public const string BUTTON_CREATE_GROUP = "create-group-button";
-        public const string BUTTON_CREATE_CATEGORY = "create-category-button";
 
         //List View
         public const string LIST_VIEW_ALL_SO = "so-list";
