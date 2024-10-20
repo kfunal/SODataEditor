@@ -1,0 +1,61 @@
+.toolbar{
+    height: 25px;
+}
+
+.toolbar-button{
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+}
+
+.tree-view-element{
+    padding-top: 2px;
+    color: rgb(135, 206, 235);
+    font-size: 14px;
+    -unity-text-align: middle-left;
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 2px rgb(0, 0, 0);
+}
+
+.selected-category-label{
+    margin-top: 2px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    color: rgb(135, 206, 235);
+    font-size: 13px;
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 2px rgb(0, 0, 0);
+}
+
+.add-category-area{
+    display: flex;
+    padding: 5px;
+    border-top-width: 1px;
+    border-color: black;
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: .75s;
+    transition-timing-function: ease-in-out-sine;
+}
+
+.add-category-area-hidden{
+    display: none;
+    opacity: 0;
+}
+
+.help-box{
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 1px;
+    margin-left: 1px;
+    opacity: 1;
+    transition: opacity .3s ease-in;
+}
+
+.help-box-hidden{
+    display: none;
+    opacity: 0
+}

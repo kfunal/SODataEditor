@@ -53,6 +53,7 @@
     },
     "dotnet.defaultSolution": "SODataEditor.sln",
     "cSpell.words": [
-        "Uncategorized"
+        "Uncategorized",
+        "VIEL"
     ]
 }

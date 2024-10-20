@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/SOCategory/Editor/StyleSheets/CategoryWindow.uss?fileID=7433441132597879392&amp;guid=c7f20eb6bd801174580b3b1bc430932f&amp;type=3#CategoryWindow" />
+    <ui:VisualElement name="window" style="flex-grow: 1;">
+        <uie:Toolbar name="toolbar" class="toolbar">
+            <uie:ToolbarButton text="Category Structure" parse-escape-sequences="true" display-tooltip-when-elided="true" name="toolbar-categories" class="toolbar-button" />
+        </uie:Toolbar>
+        <ui:VisualElement name="categories-page" style="flex-grow: 1;">
+            <SOCategory.CustomEditor.CustomUIElements.SplitView name="split-view" fixed-pane-initial-dimension="250">
+                <ui:VisualElement name="left-panel" style="flex-grow: 1; flex-direction: row;">
+                    <ui:TreeView name="category-tree" show-alternating-row-backgrounds="ContentOnly" auto-expand="true" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="right-panel" style="flex-grow: 1;">
+                    <ui:VisualElement name="category-detail-buttons" style="flex-grow: 0; flex-direction: row; margin-top: 2px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;">
+                        <ui:Button text="Un Select" parse-escape-sequences="true" display-tooltip-when-elided="true" name="un-select-button" />
+                        <ui:Button text="Add Category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="add-category-area-button" />
+                        <ui:Button text="Remove Category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="remove-category-button" />
+                    </ui:VisualElement>
+                    <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="selected-category-label" class="selected-category-label" />
+                    <ui:VisualElement name="add-category-area" class="add-category-area-hidden" style="flex-grow: 1;">
+                        <SOCategory.CustomEditor.CustomUIElements.CustomHelpBox name="add-category-help-box" message-type="Error" class="help-box-hidden" />
+                        <ui:TextField picking-mode="Ignore" label="New Category " name="new-category-name" binding-path="newCategoryName" />
+                        <ui:Button text="Add New Category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="add-category-button" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </SOCategory.CustomEditor.CustomUIElements.SplitView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
