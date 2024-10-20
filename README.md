@@ -34,6 +34,8 @@ To delete an existing category:
 2. Click on the **"Delete"** button at the top of the window.
 3. The selected category will be removed from the list.
 
+![image](https://github.com/user-attachments/assets/e36aa674-cdf9-4318-b69f-7171f7a4ecdf)
+
 ### Additional Notes
 - The tool is designed to work with a **ScriptableObject** that holds the categories' data.
 - The editor focuses on managing the category structure solely through the TreeView interface.
