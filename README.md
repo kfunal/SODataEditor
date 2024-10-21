@@ -44,6 +44,14 @@ To delete an existing category:
 - When a Scriptable Object is selected from the list, its inspector is displayed next to the list.
 - This allows users to edit the selected object directly without needing to open a separate inspector window.
 
+![image](https://github.com/user-attachments/assets/d93760cc-d065-4adb-b852-82e76af57614)
+
+![image](https://github.com/user-attachments/assets/fac06716-e71b-4888-b649-cfc380f134b7)
+
+![image](https://github.com/user-attachments/assets/078deec4-ddc0-454f-885e-641c5491cc9d)
+
+![image](https://github.com/user-attachments/assets/7bee3a16-df41-4232-89ec-6e7502dbd51e)
+
 ### Important Note for Scriptable Objects
 - Users must create a variable of type **Category** within each **ScriptableObject** they wish to manage through this tool. The name of this variable can be anything, as long as it is of type **Category**. This ensures that the Scriptable Object will be correctly recognized within the category structure.
 
