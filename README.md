@@ -1,13 +1,15 @@
 # Category Editor Tool Documentation
 
 ## Overview
-This tool provides a custom editor window for managing categories in the project. It allows users to create and manage categories directly from the Unity editor using a TreeView structure. The main goal is to minimize manual editing of the project file structure and encourage managing categories through the editor interface. The TreeView structure directly reflects the folder hierarchy in the project, ensuring a consistent organization.
+This tool provides a custom editor window for managing categories in the project. It allows users to create and manage categories directly from the Unity editor using a TreeView structure. The main goal is to minimize manual editing of the project file structure and encourage managing categories through the editor interface. The TreeView structure directly reflects the folder hierarchy in the project, ensuring consistent organization.
 
 ## Features
 - **TreeView Structure**: Categories are organized and displayed in a tree view for easy navigation and management, mirroring the folder structure in the project.
 - **Category Management**: Users can add or delete categories directly from the TreeView, either at the root level or as a subcategory.
+- **Scriptable Object Display**: The selected group's Scriptable Objects are displayed in a list, allowing users to easily view and manage them.
+- **Inspector Display**: When a Scriptable Object is selected from the list, its inspector is shown next to the list for easy editing.
 - **Editor Window Access**: The window is accessed through the **SOCategory/Category Window** menu.
-- **Avoid Manual Changes**: It is recommended to avoid manually altering the file structure and use the editor for all category management tasks.
+- **Avoid Manual Changes for Categories**: While users are free to create their own folder structures, it is crucial to manage category-related Scriptable Objects exclusively through this editor tool to ensure consistent integration.
 
 ## How to Use
 
@@ -34,22 +36,25 @@ To delete an existing category:
 2. Click on the **"Delete"** button at the top of the window.
 3. The selected category will be removed from the list.
 
-![image](https://github.com/user-attachments/assets/e36aa674-cdf9-4318-b69f-7171f7a4ecdf)
+### Displaying Scriptable Objects
+- The selected group's Scriptable Objects are listed in a dedicated area within the editor window.
+- Users can click on any Scriptable Object to view its properties and details.
+
+### Inspecting Scriptable Objects
+- When a Scriptable Object is selected from the list, its inspector is displayed next to the list.
+- This allows users to edit the selected object directly without needing to open a separate inspector window.
+
+### Important Note for Scriptable Objects
+- Users must create a variable of type **Category** within each **ScriptableObject** they wish to manage through this tool. The name of this variable can be anything, as long as it is of type **Category**. This ensures that the Scriptable Object will be correctly recognized within the category structure.
 
 ### Additional Notes
 - The tool is designed to work with a **ScriptableObject** that holds the categories' data.
 - The editor focuses on managing the category structure solely through the TreeView interface.
-- The TreeView structure directly reflects the folder hierarchy in the project, ensuring a consistent organization.
-
-### Using ScriptableObject for Categories
-Currently, users can create a variable of type **Category** within a **ScriptableObject** to store category information. This setup allows for easy management and retrieval of category data directly from the ScriptableObject.
+- The TreeView structure directly reflects the folder hierarchy in the project, ensuring consistent organization.
 
 ### Best Practices
-- **Avoid Manual File Changes**: It is recommended not to manually alter the file structure. Instead, use the editor window to manage all categories. This ensures that the structure stays consistent and avoids potential errors.
-- **Use the Editor**: Whenever possible, use the editor for adding or removing categories to ensure smooth integration with the tool’s functionality.
-
-## Development Status
-The project is currently in development, with plans to enhance functionality and user experience. Future features may include additional category management tools, improvements to the user interface, and better integration with user feedback.
+- **Avoid Manual Changes for Categories**: While users can create their own folder structures, it is essential to manage category-related Scriptable Objects exclusively through this editor tool to maintain consistency.
+- **Use the Editor**: Whenever possible, utilize the editor for adding or removing categories to ensure smooth integration with the tool’s functionality.
 
 ## Unity Version
 This tool is developed using **Unity 2023.1**.
