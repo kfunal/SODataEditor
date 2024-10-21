@@ -1,17 +1,24 @@
-.toolbar{
-    height: 25px;
+.toolbar {
+    padding: 5px;
+    height: 35px;
+    border-bottom-width: 1px;
+    border-color: black;
 }
 
-.toolbar-button{
-    font-size: 14px;
-    padding-left: 5px;
-    padding-right: 5px;
+.toolbar-button {
+    margin-right: 5px;
+    border-width: 1px;
+    border-color: rgb(41, 128, 185);
+    font-size: 13px;
+    color: white;
     -unity-font-style: bold;
     -unity-text-align: middle-left;
+    overflow: hidden;
 }
 
-.tree-view-element{
-    padding-top: 2px;
+.collection-element {
+    padding-top: 3px;
+    padding-left: 5px;
     color: rgb(135, 206, 235);
     font-size: 14px;
     -unity-text-align: middle-left;
@@ -19,43 +26,53 @@
     text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
-.selected-category-label{
-    margin-top: 2px;
+.selected-category-label {
+    margin-top: 3px;
     margin-left: 5px;
     margin-bottom: 5px;
     color: rgb(135, 206, 235);
-    font-size: 13px;
+    font-size: 14px;
     -unity-font-style: bold;
     text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
-.add-category-area{
+.area {
     display: flex;
+    margin-top: 5px;
     padding: 5px;
     border-top-width: 1px;
     border-color: black;
     opacity: 1;
     transition-property: opacity;
-    transition-duration: .75s;
+    transition-duration: 0.75s;
     transition-timing-function: ease-in-out-sine;
 }
 
-.add-category-area-hidden{
+.area-hidden {
     display: none;
     opacity: 0;
 }
 
-.help-box{
+.help-box {
     display: flex;
     margin-top: 5px;
     margin-bottom: 5px;
     margin-right: 1px;
     margin-left: 1px;
     opacity: 1;
-    transition: opacity .3s ease-in;
+    transition: opacity 0.3s ease-in;
 }
 
-.help-box-hidden{
+.help-box-hidden {
     display: none;
-    opacity: 0
+    opacity: 0;
+}
+
+.script-create-field {
+    margin: 5px;
+    margin-bottom: 0;
+    color: white;
+    font-size: 13px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
 }

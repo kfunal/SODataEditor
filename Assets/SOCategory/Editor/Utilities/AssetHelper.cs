@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using SOCategory.Runtime;
@@ -90,5 +91,27 @@ namespace SOCategory.CustomEditor.Utilities
         }
 
         public static string GetFinalFolder(this string _folderName) => _folderName.Split("/")[^1];
+
+        public static List<ScriptableObject> FindAllScriptableObjectsExceptCategories()
+        {
+            List<ScriptableObject> scriptableObjects = new List<ScriptableObject>();
+
+            string[] guids = AssetDatabase.FindAssets("t:ScriptableObject");
+
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+
+                if (path.StartsWith(PATH_CATEGORY_ROOT))
+                    continue;
+
+                ScriptableObject obj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+                if (obj == null) continue;
+
+                scriptableObjects.Add(obj);
+            }
+
+            return scriptableObjects;
+        }
     }
 }

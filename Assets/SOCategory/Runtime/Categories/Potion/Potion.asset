@@ -10,9 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5830c2a0b36f33f4eb43a208a534ef92, type: 3}
-  m_Name: Weapon
+  m_Name: Potion
   m_EditorClassIdentifier: 
   <ParentCategory>k__BackingField: {fileID: 0}
-  <SubCategories>k__BackingField:
-  - {fileID: 11400000, guid: e281b706f2a33dc479f6c0e59b53a1d6, type: 2}
-  - {fileID: 11400000, guid: 876139e8f1036954b864dad9bad72bc0, type: 2}
+  <SubCategories>k__BackingField: []
